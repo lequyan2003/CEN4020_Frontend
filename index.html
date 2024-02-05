@@ -1,17 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CEN 4020</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    <title>Sign In</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="main.js" defer></script>
 </head>
-
 <body>
-    <p class="styled-paragraph">
-        This is a paragraph with some basic styling.
-    </p>
+    <header>
+        <h1>Welcome to InCollege</h1>
+    </header>
+    <main>
+        <section>
+            <h2>Login</h2>
+            <form id="login-form">
+                <div>
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div>
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit">Log In</button>
+            </form>
+            <p>Don't have an account? <a href="signup.html">Sign up here</a></p>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 InCollege. All rights reserved.</p>
+    </footer>
 </body>
-
 </html>
