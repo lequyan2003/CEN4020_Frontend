@@ -1,4 +1,29 @@
 document.addEventListener('DOMContentLoaded', function() {
+    const loginForm = document.getElementById('login-form');
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
+    const loginError = document.getElementById('login-error');
+
+    if (loginForm) {
+        loginForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const username = usernameInput.value;
+            const password = passwordInput.value;
+
+            if (!username || !password) {
+                loginError.textContent = 'Please enter both username and password.';
+            } else {
+                if (!isValidPassword(password)) {
+                    loginError.textContent = 'Invalid password format. Password must be at least 8 characters long and contain at least one uppercase letter, one digit, and one special character.';
+                    return;
+                }
+
+                // Send login request to backend
+                login(username, password);
+            }
+        });
+    }
+
     const signupForm = document.getElementById('signup-form');
     const signupUsernameInput = document.getElementById('signup-username');
     const signupPasswordInput = document.getElementById('signup-password');
@@ -16,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 signupError.textContent = 'Please enter all required fields.';
             } else {
                 if (!isValidPassword(password)) {
-                    signupError.textContent = 'Password must be at least 8 characters long and contain at least one uppercase letter, one digit, and one special character.';
+                    signupError.textContent = 'Invalid password format. Password must be at least 8 characters long and contain at least one uppercase letter, one digit, and one special character.';
                     return;
                 }
 
@@ -30,26 +55,15 @@ document.addEventListener('DOMContentLoaded', function() {
         return passwordRegex.test(password);
     }
 
+    function login(username, password) {
+        // Send login request to backend
+        console.log('Sending login request to backend:', { username, password });
+        // This is where you would make an HTTP request to your backend API
+    }
+
     function signup(username, password, school) {
-        fetch('http://localhost:8000/user', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                email: username,
-                hashed_password: password,
-                school: school,
-            }),
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Signup successful:', data);
-            // Handle success (e.g., display success message)
-        })
-        .catch(error => {
-            console.error('Error signing up:', error);
-            // Handle error (e.g., display error message)
-        });
+        // Send signup request to backend
+        console.log('Sending signup request to backend:', { username, password, school });
+        // This is where you would make an HTTP request to your backend API
     }
 });
