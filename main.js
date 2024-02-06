@@ -19,16 +19,36 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
-            // Send login request to backend
-            login(username, password);
+            // Send login request to backend (not implemented yet)
+            // login(username, password);
         }
     });
 
-    const signupLink = document.getElementById('signup-link');
-    signupLink.addEventListener('click', function(event) {
+    const signupForm = document.getElementById('signup-form');
+    const signupUsernameInput = document.getElementById('signup-username');
+    const signupPasswordInput = document.getElementById('signup-password');
+    const signupSchoolInput = document.getElementById('signup-school');
+    const signupError = document.getElementById('signup-error');
+
+    signupForm.addEventListener('submit', function(event) {
         event.preventDefault();
-        // Redirect or display signup form
-        console.log('Redirect to signup page');
+        const username = signupUsernameInput.value;
+        const password = signupPasswordInput.value;
+        const school = signupSchoolInput.value;
+
+        // Perform validation for signup form
+        if (!username || !password || !school) {
+            signupError.textContent = 'Please enter all required fields.';
+        } else {
+            // Verify password format
+            if (!isValidPassword(password)) {
+                signupError.textContent = 'Password must be at least 8 characters long and contain at least one uppercase letter, one digit, and one special character.';
+                return;
+            }
+
+            // Send signup request to backend
+            signup(username, password, school);
+        }
     });
 
     function isValidPassword(password) {
@@ -37,9 +57,27 @@ document.addEventListener('DOMContentLoaded', function() {
         return passwordRegex.test(password);
     }
 
-    function login(username, password) {
-        // Send login request to backend
-        console.log('Sending login request to backend:', { username, password });
-        // This is where you would make an HTTP request to your backend API
+    function signup(username, password, school) {
+        // Send signup request to backend
+        fetch('http://localhost:8000/user', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                email: username,
+                hashed_password: password,
+                school: school,
+            }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Signup successful:', data);
+            // Handle success (e.g., display success message)
+        })
+        .catch(error => {
+            console.error('Error signing up:', error);
+            // Handle error (e.g., display error message)
+        });
     }
 });
